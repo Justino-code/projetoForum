@@ -18,7 +18,7 @@ abstract class CommentDAO extends Conexao{
 	protected function insert():bool{
 		try{
 			$this->iniciaTransacao();
-			$entidade = $this->getPostData();
+			$entidade = $this->getData();
 			$keys = array_keys($entidade);
 			for($i = 0; $i < count($entidade); $i++){
 				$key = $keys[$i];
@@ -32,24 +32,20 @@ abstract class CommentDAO extends Conexao{
 				if(!$consulta){
 					throw new PDOException();
 				}
-
-				print_r($entidade[$key]);
-
-				$consult;
 			}
 			
 			$this->enviaTransacao();
 			return true;
 	}catch(\PDOException $e){
 		$this->desfazTransacao();
-		$this->setErro("Erro! nao foi possível salvar post");
+		$this->setErro("Erro! nao foi possível salvar comentario");
 			return false;
 		}
 	}
 
 	protected function select($id=null):array|bool{
 		try{
-			$entidade = $this->getPostData();
+			$entidade = $this->getData();
 			foreach($entidade as $key => $values){
 				$param = array_values($values);
 				$param = implode(',',$values);
@@ -74,7 +70,7 @@ abstract class CommentDAO extends Conexao{
 			}	
 		
 		}catch(PDOException $e){
-			$this->setErro("Erro! ao selecionar posts {$e->getMessage()}");
+			$this->setErro("Erro! ao selecionar comentario {$e->getMessage()}");
 			return false;
 		}
 	}
@@ -82,7 +78,7 @@ abstract class CommentDAO extends Conexao{
 	protected function update():bool{
 		try{
 			$this->iniciaTransacao();
-			$entidade = $this->getPostData();
+			$entidade = $this->getData();
 			$column = [];
 			foreach($entidade as $key => $values){
 				$keys = array_keys($values);
@@ -90,11 +86,11 @@ abstract class CommentDAO extends Conexao{
 					$value = str_replace(':','',$keys[$i]).'='.$keys[$i];
 					array_push($column,$value);
 				}
-				$values[':id_post'] = $this->getPostId();
+				$values[':id_com'] = $this->getComId();
 				$values[':id_user'] = $this->getUserId();
+				$values[':id_post'] = $this->getPostId();
 				$column_str = implode(',',$column);
-				$sql = "UPDATE {$key} SET {$column_str} WHERE id_post = :id_post AND id_user = :id_user";
-				print_r($values);
+				$sql = "UPDATE {$key} SET {$column_str} WHERE id_com = :id_com AND id_post = :id_post AND id_user = :id_user";
 				$consulta = $this->consulta($sql,$values);
 				if(!$consulta){
 					throw new PDOException();
@@ -105,24 +101,25 @@ abstract class CommentDAO extends Conexao{
 			}
 		}catch(\PDOException $e){
 			$this->desfazTransacao();
-			$this->setErro('Erro! na actualização do post');
+			$this->setErro('Erro! na actualização do comentario');
 			return false;
 		}
 	}
 
 	protected function deleter():bool{
 		try{
+			$id_com = $this->getComId();
 			$id_post = $this->getPostId();
 			$id_user = $this->getUserId();
-			$sql = "DELETE FROM post WHERE id_post = :id_post AND id_user = :id_user";
-			$consulta = $this->consulta($sql,[':id_post'=>$id_post,':id_user'=>$id_user]);
+			$sql = "DELETE FROM comment  WHERE id_com = :id_com AND id_post = :id_post AND id_user = :id_user";
+			$consulta = $this->consulta($sql,[':id_com'=>$id_com,':id_post'=>$id_post,':id_user'=>$id_user]);
 			if(!$consulta){
 				throw new PDOException();
 			}else{
 				return true;
 			}
 		}catch(\PDOException $e){
-			$this->setErro('Erro! ao remover o post');
+			$this->setErro('Erro! ao remover o comentario');
 			return false;
 		}
 	

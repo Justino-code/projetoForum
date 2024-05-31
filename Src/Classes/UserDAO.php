@@ -18,7 +18,7 @@ abstract class UserDAO extends Conexao{
 	protected function insert($email):bool{
 		try{
 			$this->iniciaTransacao();
-			$entidade = $this->getUserData();
+			$entidade = $this->getData();
 			$keys = array_keys($entidade);
 			for($i = 0; $i < count($entidade); $i++){
 				$key = $keys[$i];
@@ -56,7 +56,7 @@ abstract class UserDAO extends Conexao{
 
 	protected function select($id_user):array|bool{
 		try{
-			$entidade = $this->getUserData();
+			$entidade = $this->getData();
 			foreach($entidade as $key => $values){
 				$param = array_values($values);
 				$param = implode(',',$values);
@@ -81,7 +81,7 @@ abstract class UserDAO extends Conexao{
 
 	function select_complex($id_user){
 		try{
-			$elements = $this->getUserData();
+			$elements = $this->getData();
 			$key = array_keys($elements);
 			$entidade = implode(',',$key);
 			$param = [];
@@ -109,7 +109,7 @@ abstract class UserDAO extends Conexao{
 	protected function update(int$id_user):bool{
 		try{
 			$this->iniciaTransacao();
-			$entidade = $this->getUserData();
+			$entidade = $this->getData();
 			$column = [];
 			foreach($entidade as $key => $values){
 				$keys = array_keys($values);

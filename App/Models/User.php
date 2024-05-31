@@ -4,19 +4,21 @@ namespace App\Models;
 use Src\Classes\UserDAO;
 use App\Models\Post;
 use App\Models\Comment;
-use Src\Interfaces\InterModel;
+use Src\Traits\Implementation;
 
 class User extends UserDAO{
+	use Implementation;
+
 	private $password;
-	private $salt;
+	private $nome;
+	private $sobrenome;
+	private $alcunha;
 	private $email;
-	private $create_date;
-	private $update_date;
 	private $status;
 	private $verify;
 	private $last_login;
 	private $phone_user;
-	private $user_data = [];
+
 	private $post;
 	private $comment;
 
@@ -121,6 +123,21 @@ class User extends UserDAO{
 	public function pass_generate($pass){
 		return password_hash($pass,PASSWORD_DEFAULT);
 	}
+	public function setNome(string$nome){                       $this->nome = $nome;
+	}
+	public function getNome():string{                             return $this->nome;
+	}
+	public function setSobrenome(string$sobrenome){
+		$this->sobrenome = $sobrenome;
+	}                                               public function getSobrenome():string{                       return $this->sobrenome;
+	}
+	public function setAlcunha(string$alcinha){
+		$this->alcunha = $alcunha;
+	}
+	public function getAlcunha():string{
+		return $this->alcunha;
+	}
+
 	public function setEmail($email){
 		$this->email = $email;
 	}
@@ -128,13 +145,6 @@ class User extends UserDAO{
 		return $this->email;
 	}
 
-	public function getCreateDate(){
-		return $this->create_date;
-	}
-
-	public function getUpdateDate()	{
-		return $this->update_date;
-	}
 	public function setStatus(bool$status){
 		$this->status = $status;
 	}
@@ -154,11 +164,5 @@ class User extends UserDAO{
 	}
 	public function getLastLogin(){
 		return $this->last_login;
-	}
-	public function setUserData(array$data){
-		$this->user_data = $data;
-	}
-	public function getUserData():array{
-		return $this->user_data;
-	}
+	}}
 }

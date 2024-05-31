@@ -3,10 +3,25 @@ require_once('../Src/vendor/autoload.php');
 require_once('../config/config.php');
 
 use App\ProcessHandler;
-use App\Models\User;
-use App\Models\Post;
 
-$c = new Post();
+//$ph = new ProcessHandler();
+//use App\Models\User;
+//use App\Models\Post;
+//use App\Models\Comment;
+
+//$c = new Comment();
+//$c->setData(['comment'=>[':content'=>'gostei osso e nice',':create_date'=>'2020-07-03',':update_date'=>'2020-08-07',':id_user'=>110,':id_post'=>5]]);
+
+//$c->setPostId(5);
+//$c->setComId(4);
+//$c->setUserId(110);
+//$c->comment();
+//$c->delete_com();
+//$c->setData(['comment'=>['content']]);
+//print_r($c->select_com());
+
+//$c->setData(['comment'=>[':content'=>'nao gostei']]);
+//$c->update_com();
 
 //$c->setPostData(['post'=>[':title'=>'POO',':content'=>'Programação orientada a objecto',':create_date'=>'2020/07/03',':update_date'=>'2020/08/07',':id_user'=>110,':id_cat'=>1]]);
 
@@ -22,7 +37,7 @@ $c = new Post();
 
 //$c->update_post(4,110);
 //
-$c->delete_post(4,110);
+//$c->delete_post(4,110);
 
 /*
 $ph = new ProcessHandler();

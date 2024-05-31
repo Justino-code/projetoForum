@@ -18,7 +18,7 @@ abstract class PostDAO extends Conexao{
 	protected function insert():bool{
 		try{
 			$this->iniciaTransacao();
-			$entidade = $this->getPostData();
+			$entidade = $this->get	Data();
 			$keys = array_keys($entidade);
 			for($i = 0; $i < count($entidade); $i++){
 				$key = $keys[$i];
@@ -32,10 +32,6 @@ abstract class PostDAO extends Conexao{
 				if(!$consulta){
 					throw new PDOException();
 				}
-
-				print_r($entidade[$key]);
-
-				$consult;
 			}
 			
 			$this->enviaTransacao();
@@ -49,7 +45,7 @@ abstract class PostDAO extends Conexao{
 
 	protected function select($id=null):array|bool{
 		try{
-			$entidade = $this->getPostData();
+			$entidade = $this->getData();
 			foreach($entidade as $key => $values){
 				$param = array_values($values);
 				$param = implode(',',$values);
@@ -82,7 +78,7 @@ abstract class PostDAO extends Conexao{
 	protected function update():bool{
 		try{
 			$this->iniciaTransacao();
-			$entidade = $this->getPostData();
+			$entidade = $this->getData();
 			$column = [];
 			foreach($entidade as $key => $values){
 				$keys = array_keys($values);
@@ -94,7 +90,6 @@ abstract class PostDAO extends Conexao{
 				$values[':id_user'] = $this->getUserId();
 				$column_str = implode(',',$column);
 				$sql = "UPDATE {$key} SET {$column_str} WHERE id_post = :id_post AND id_user = :id_user";
-				print_r($values);
 				$consulta = $this->consulta($sql,$values);
 				if(!$consulta){
 					throw new PDOException();
