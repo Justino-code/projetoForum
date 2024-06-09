@@ -73,7 +73,6 @@ abstract class Conexao{
 
 		}catch(\PDOException $e){
 			$this->setErro("Erro ao fazer uma consulta sql, verifique o seu código sql. Código de erro [{$e->getCode()}]",UserDAO::NIVEL_ERROR);
-			echo $e->getMessage();
 			return false;
 		}
 
@@ -83,7 +82,7 @@ abstract class Conexao{
 		$this->result = $result;
 	}
 
-	protected function getResult():bool|array{
+       protected function getResult():bool|array{
 		$result = $this->result;
 		if ($result){
 			return $result->fetchAll(PDO::FETCH_ASSOC);

@@ -20,7 +20,9 @@ class Route{
 			"comment" => "ControllerComment",
 			"category" => "ControllerCategory",
 			"user" => "ControllerUser",
-			"notification" => "ControllerNotification"
+			"notification" => "ControllerNotification",
+			"login"=>"ControllerLogin",
+			"register"=>"ControllerRegister"
 		);
 
 		

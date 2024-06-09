@@ -4,7 +4,7 @@ require_once('../config/config.php');
 
 use App\ProcessHandler;
 
-//$ph = new ProcessHandler();
+$ph = new ProcessHandler();
 //use App\Models\User;
 //use App\Models\Post;
 //use App\Models\Comment;

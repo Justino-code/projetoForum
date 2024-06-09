@@ -9,16 +9,21 @@ use Src\Traits\TErro;
 abstract class UserDAO extends Conexao{
 	use TErro;
 
-	protected $id_user = [];
+	//protected $id = [];
 
 	public function __construct(){
 		parent::__construct(HOST,DB,USER,PWD);
 	}
 
-	protected function insert($email):bool{
+	protected function insert():bool{
 		try{
 			$this->iniciaTransacao();
+			$this->setUId($this->getEmail());                                                               if(array_key_exists('id_user',$this->getUserId())){
+			$this->setErro('E-mail do usuário já está associada a uma conta.');
+			return false;
+			}
 			$entidade = $this->getData();
+
 			$keys = array_keys($entidade);
 			for($i = 0; $i < count($entidade); $i++){
 				$key = $keys[$i];
@@ -29,7 +34,7 @@ abstract class UserDAO extends Conexao{
 				$consult;
 
 				if($key != "user_accounts"){
-					$this->setUserId($this->getEmail());
+					$this->setUId($this->getEmail());
 					$id = $this->getUserId()['id_user'];
 					$new_entidade =  array_merge($entidade[$key],[':id_user'=>$id]);
 					$param = array_keys($new_entidade);                                                           $param = implode(',',$param);                                                                   $atr = str_replace(':','',$param);
@@ -49,7 +54,7 @@ abstract class UserDAO extends Conexao{
 			return true;
 	}catch(\PDOException $e){
 		$this->desfazTransacao();
-		$this->setErro("Erro! nao foi possovel registar");
+		$this->setErro("Erro! nao foi possivel registar");
 			return false;
 		}
 	}
@@ -83,17 +88,23 @@ abstract class UserDAO extends Conexao{
 		try{
 			$elements = $this->getData();
 			$key = array_keys($elements);
-			$entidade = implode(',',$key);
+			$entidade = implode(' left join ',$key);
+			$entidades = [];
+			foreach($key as $value){
+				array_push($entidades, $value.'.id_user');
+			}
 			$param = [];
 			foreach($elements as $value){
 				$keys = array_values($value);
 				array_push($param,$keys);
 			}
+
+			$ent = implode(' = ',$entidades);
 			
 			$atr = call_user_func_array('array_merge',$param);
 			$atr = implode(',',$atr);
 			$atr = str_replace(':','',$atr);
-			$sql = "SELECT {$atr} FROM {$entidade} WHERE user_accounts.id_user = :id_user";
+			$sql = "SELECT {$atr} FROM {$entidade} ON {$ent} WHERE user_accounts.id_user = :id_user";
 			$consulta = $this->consulta($sql,[':id_user'=>$id_user]);
 			if(!$consulta){
 				throw new PDOException();
@@ -151,12 +162,12 @@ abstract class UserDAO extends Conexao{
 	
 	}
 
-	protected function setUserId($email){
+	public function setUId($email){
 		$sql = "SELECT id_user FROM user_accounts WHERE email = :email";
 		$param = [':email'=>$email];
 
-		$this->consulta($sql,$param);
-		if($this->getResult()){
+		$c = $this->consulta($sql,$param);
+		if($c){
 			$this->id_user = call_user_func_array('array_merge',$this->getResult());
 		}
 	}

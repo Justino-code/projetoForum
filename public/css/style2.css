@@ -145,12 +145,16 @@ header {
 
 /* Postagens e respostas */
 .post-section {
-  Flex: 3;
+    Flex: 3;
     max-width: 700px;
-    margin: 20px auto;
+    margin: 0px auto;
     padding: 0 20px;
-    height: 647px;
-    overflow-y: auto;
+    height: 720px;
+}
+
+#posts{
+  overflow-y: auto;
+  height: 540px;
 }
 
 .post-container {
@@ -246,7 +250,26 @@ footer {
     }
     
     form#form-post{
+      margin-left: 0;
+      padding: 5px 2px;
     }
+    form#form-post textarea{
+      height: 100px;
+    }
+    div#post-create-area{
+      width: 100%;
+      margin-bottom: 40px;
+    }
+    
+    section.post-section {
+      width: 100%;
+      height: 50px;
+      padding: 0;
+}
+div#posts{
+	overflow-y: none;
+	height: 100%;
+}
 
     .nav-menu {
         margin-top: 10px;
@@ -441,38 +464,43 @@ div #fechar{
 #login-f{
   color: red;
 }
-
 #erro{
-	color: #fff;
-	padding: 10px;
+  color: #fff;
+  padding: 10px;
 }
 
 /*área dos post*/
 #post-create-area{
+  width: inherit;
+  margin-bottom: 10px;
   display: flex;
-  justify-content: center;
-}
-
-#form-post{
-  width: 400px;
-  display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 
-#form-post input, textarea{
+#form-post{
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 1px 8px 7px 1px #ccc;
+  border-radius: 10px;
+  padding: 10px 10px auto;
+}
+
+#form-post input, textarea{
+  width: 90%;
   margin: 3px;
   border: none;
   padding: 7px;
 }
 #form-post textarea{
-  height: 60px;
+  height: 70px;
   border-radius: 10px;
 }
 #form-post input{
-  height: 25px;
+  height: 30px;
   border-radius: 5px;
 }
 #form-post input:active, textarea:active{
@@ -487,5 +515,11 @@ div #fechar{
   background: #041585;
   color: #fff;
   box-shadow: 2px 2px 1px 0px #ccf;
-  margin: 5px;
+  margin: 5px auto;
+}
+
+#category{
+  width: 200px;
+  height: 20px;
+  margin-top: 10px;
 }

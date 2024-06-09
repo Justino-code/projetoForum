@@ -1,9 +1,11 @@
 <?php 
 namespace Src\Traits;
 
+use \DateTime;
+
 trait Implementation{
 	private $date;
-	private $id_user;
+	protected $id_user = [];
 	private $id_post;
 	private $id_com;
 	private $id_cat;

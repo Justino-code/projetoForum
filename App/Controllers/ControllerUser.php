@@ -1,5 +1,6 @@
 <?php
 namespace App\Controllers;
+header('Content-Type: application/json');
 
 use Src\Classes\Render;
 use App\Models\User;
@@ -15,17 +16,5 @@ class ControllerUser extends Render{
 		$this->setKeywords('');
 
 		$this->renderView();
-	}
-
-	public function register(){
-		$data = $_POST;
-		extract($data);
-		$this->user->setNome($nome);
-		$this->user->setSobrenome($sobrenome);
-
-		echo $nome.'<br>'.$sobrenome;
-
-		//print_r($_POST);
-		//echo '<br> Ola estou aqui';
 	}
 }

@@ -27,7 +27,7 @@ class Post extends PostDAO{
 	}
 
 	public function setTitle($title){
-		$this->title = $title;
+		$this->title = htmlentities($title,ENT_QUOTES);
 	}
 	public function getTitle(){
 		return $this->title;
@@ -41,16 +41,16 @@ class Post extends PostDAO{
 
 	public function validate(){
 		if(empty(trim($this->getTitle()))){
-			return true;
+			return false;
 		}
 
 		else if(empty(trim($this->getContent()))){
-			return true;
+			return false;
 		}
 		else if(empty(trim($this->getPostData()))){
-			return true;
-		}else{
 			return false;
+		}else{
+			return true;
 		}
 	}
 }

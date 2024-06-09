@@ -18,7 +18,7 @@ abstract class PostDAO extends Conexao{
 	protected function insert():bool{
 		try{
 			$this->iniciaTransacao();
-			$entidade = $this->get	Data();
+			$entidade = $this->getData();
 			$keys = array_keys($entidade);
 			for($i = 0; $i < count($entidade); $i++){
 				$key = $keys[$i];
@@ -43,7 +43,7 @@ abstract class PostDAO extends Conexao{
 		}
 	}
 
-	protected function select($id=null):array|bool{
+	public function select($id=null):array|bool{
 		try{
 			$entidade = $this->getData();
 			foreach($entidade as $key => $values){
@@ -56,7 +56,7 @@ abstract class PostDAO extends Conexao{
 				if($id){
 					$cond_pesq = implode('',array_keys($id));
 					$cond = str_replace(':','',$cond_pesq);
-					$sql = "SELECT {$atr} FROM {$key} WHERE {$cond} = {$cond_pesq}"; 
+					$sql = "SELECT {$atr} FROM {$key} WHERE {$cond} = {$cond_pesq}";
 					$consulta = $this->consulta($sql,$id);
 				}else{
 					$sql = "SELECT {$atr} FROM {$key}";
@@ -67,7 +67,8 @@ abstract class PostDAO extends Conexao{
 				}else{
 					return $this->getResult();
 					}
-			}	
+			}
+		return false;	
 		
 		}catch(PDOException $e){
 			$this->setErro("Erro! ao selecionar posts {$e->getMessage()}");
