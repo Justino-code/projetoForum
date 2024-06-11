@@ -84,8 +84,6 @@ class User extends UserDAO{
 
 			$pass_verify = $this->pass_verify($pass, $user['password']);
 			if($pass_verify == true && $user['email'] == $email && !isset($_SESSION['user_email'])){
-				$this->setData(['user_accounts'=>[':last_login'=>$this->getLastLogin()]]);
-				$this->update_user($email);
 				$_SESSION['user_email'] = $user['email'];
 				$_SESSION['user_id'] = $this->getUserId()['id_user'];
 				$_SESSION['token'] = bin2hex(random_bytes(16));
@@ -121,6 +119,9 @@ class User extends UserDAO{
 
 	public function logout(){
 		if(isset($_SESSION['token'])){
+			$email = $_SESSION['user_email'];
+			$this->setLastLogin($this->get_date());
+			$this->setData(['user_accounts'=>[':last_login'=>$this->getLastLogin()]]);                                                                      $this->update_user($email);
 			session_unset();
 		}
 	}

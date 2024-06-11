@@ -14,8 +14,7 @@ class Render implements InterView{
 	}
 
 	public function renderHead(){
-		$head = DIRREQ."/App/Views/
-{$this->getDir()}/head.php";
+		$head = DIRREQ."/App/Views/{$this->getDir()}/head.php";
 		if(file_exists($head)){
 			include_once($head);
 		}

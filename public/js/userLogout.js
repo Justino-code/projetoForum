@@ -11,8 +11,6 @@ function logout(){
           xhttp.onreadystatechange = ()=>{
             if(xhttp.readyState == 4 && xhttp.status == 200){
 		    window.location.reload();
-            }else{
-              console.log('Erro não foi possível estabelecer ligação ');
             }
           };
           

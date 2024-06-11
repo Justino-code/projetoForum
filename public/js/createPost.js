@@ -58,7 +58,7 @@ function sendData(url,form){
           xhttp = new XMLHttpRequest();
           xhttp.onreadystatechange = ()=>{
             if(xhttp.readyState == 4 && xhttp.status == 200){
-              document.getElementById('content').innerHTML = xhttp.responseText;
+		    document.getElementById('profile').innerHTML = xhttp.responseText;
             }else{
               console.log('Erro não foi possível estabelecer ligação ');
             }

@@ -17,3 +17,6 @@
 	<div id="posts"></div>
     </section>
 </div>
+
+<script src="<?php echo DIRPAGE."/public/js/post.js";?>"></script>                              <?php if($_SESSION){                            $dir = DIRPAGE."/public/js/createPost.js";      echo "<script src='{$dir}'></script>";         
+}?>

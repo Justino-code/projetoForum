@@ -1,0 +1,119 @@
+h1 {
+      color: #333;
+    }
+    
+    .profile {
+      display: flex;
+      margin-top: 20px;
+    }
+    
+    .profile-image {
+      flex: 1;
+      text-align: center;
+    }
+    #image{
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      box-shadow: 0px 5px 3px 0px #000;
+    }
+    
+    #image img {
+      max-width: 100%;
+      max-height: 100%;
+      width: 100%;
+      height: auto;
+      border-radius: 50%;
+    }
+    
+    /*#image{
+      background-image: url('perfil.jpg');
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+    }*/
+    
+    .profile-info {
+      flex: 2;
+      margin-left: 20px;
+      padding: 20px;
+    }
+    
+    .profile-info ul li{
+      list-style: circle;
+    }
+    
+    .profile-info h2 {
+      margin-top: 0;
+    }
+    
+    .profile-info p {
+      margin: 10px 0;
+    }
+    
+    @media (max-width: 768px) {
+      .profile {
+        flex-direction: column;
+      }
+      
+      .profile-image {
+        margin-bottom: 20px;
+      }
+      div#menu-conta ul{
+        width: 80vw;
+        left: 4%;
+      }
+      
+      div#menu-post ul{
+        width: 80vw;
+        right: 0%;
+      }
+    }
+    
+    /*Menu configurações*/
+    #menu-user{
+      display: flex;
+      flex-direction: row;
+    }
+    #menu-user ul {
+      margin: 0px;
+      padding: 0px;
+      text-align: justify;
+    }
+    
+    #menu-user ul li{
+      list-style: circle;
+      margin: 0px 10px;
+      padding: 10px;
+      font-size: 12pt;
+    }
+    #menu-conta,#menu-post{
+      position: relative;
+      /*width: 200px;*/
+      text-align: center;
+      padding-left: 30px;
+    }
+    #menu-post ul, #menu-conta ul{
+      width: 100%;
+      display: none;
+      position: absolute;
+      background: #ccc;
+      opacity: 1;
+      color: #000;
+      border-radius: 10px;
+      padding: 10px;
+      box-shadow: 1px 5px 10px #000;
+    }
+    
+    #menu-conta ul{
+      left: 20px;
+    }
+    #menu-user h3{
+      border-radius: 2px;
+      padding: 10px;
+    }
+    
+    #menu-user h3:active{
+      background: #ccc;
+      border-radius: 10px;
+    }

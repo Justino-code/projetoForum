@@ -20,7 +20,7 @@ var_dump($_SERVER['REQUEST_METHOD'] == 'GET' && ($_SERVER['REQUEST_URI'] == '/AP
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo $this->getTitle();?></title>
     <link rel="stylesheet" href=<?php echo DIRPAGE."/public/css/style2.css";?>>
-    <?php echo $this->renderHead()?>
+    <?php echo $this->renderHead();?>
    <script src ="<?php //echo DIRPAGE."/public/js/user.js"?>"></script>
 </head>
 <body>
@@ -33,14 +33,13 @@ var_dump($_SERVER['REQUEST_METHOD'] == 'GET' && ($_SERVER['REQUEST_URI'] == '/AP
 <?php 
 if(isset($_SESSION['user_name'])){
 	$nome = $_SESSION['user_name'];
-	echo "<div id='perfil'><h2>{$nome[0]}</h2></div>";
+	echo "<div id='perfil'><h2><a href='user'>{$nome[0]}</a></h2></div>";
 }
 ?>
             <nav class="nav-menu">
                 <ul>
                     <li><a href="home">Início</a></li>
                     <li><a href="post">Tópicos</a></li>
-                    <li><a href="user">Usuários</a></li>
 		    <li><a href="about">Sobre</a></li>
 		<?php if(!isset($_SESSION['user_name']))
 		echo "<li id='login'>Login</li>";
@@ -92,11 +91,6 @@ else
 ?>
 
 "></script>
-<script src="<?php echo DIRPAGE."/public/js/post.js";?>"></script>
-<?php if($_SESSION){
-$dir = DIRPAGE."/public/js/createPost.js";
-echo "<script src='{$dir}'></script>";	
-	}?>
     </footer>
 </body>
 </html>

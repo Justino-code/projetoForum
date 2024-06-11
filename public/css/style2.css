@@ -342,6 +342,11 @@ div#posts{
   border-radius: 50%;
 }
 
+#perfil a{
+	color: #fff;
+	text-decoration: none;
+}
+
 #div-form-login{
   display: flex;
   justify-content: center;
@@ -523,3 +528,15 @@ div #fechar{
   height: 20px;
   margin-top: 10px;
 }
+
+/*Validar password*/
+    .invalid{
+      border: 2px solid red;
+    }
+    .valid{
+      border: 2px solid green;
+    }
+
+    input:focus{
+      outline: none;
+    }

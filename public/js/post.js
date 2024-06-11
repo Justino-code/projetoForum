@@ -2,12 +2,18 @@
           xhttp = new XMLHttpRequest();
           xhttp.onreadystatechange = ()=>{
             if(xhttp.readyState == 4 && xhttp.status == 200){
-              res = JSON.parse(xhttp.responseText);
-		    response = JSON.parse(res);
-		    create_post(response);
-            }else{
-              console.log('Erro não foi possível estabelecer ligação ');
-            }
+		    res = JSON.parse(xhttp.responseText);
+		    if(typeof(res) !== 'object'){
+			    response = JSON.parse(res);
+			    create_post(response);
+		    }else{
+			    let erro = document.createElement('p');
+			    ele = document.getElementById('posts');
+			    ele.appendChild(erro);
+			    erro.innerHTML = res['message'];
+			    erro.style.color = 'red';
+		}
+        }
           };
           
           xhttp.open('POST','post/getPost');

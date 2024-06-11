@@ -1,4 +1,9 @@
-      //função para adicionar a tela de login 
+let count_change = 0;
+let count_change_con = 0;
+let verify = false;
+let verify_conf = false;
+             
+//função para adicionar a tela de login 
         function add_login(id_login,id_content){
           login = document.getElementById(id_login);
           
@@ -217,13 +222,25 @@
         }
         
         function no_auto_send(form,url,err){
-          form.addEventListener('submit',(envet)=>{
-            event.preventDefault();
-            sendData(url,form,err)
+		form.addEventListener('submit',(event)=>{
+			event.preventDefault();
+
+			if(url == 'login/register'){
+				verify = verifyPass();
+				if(verify){
+					sendData(url,form,err);
+				}
+			}else{
+				sendData(url,form,err);
+			}
           });
           
           form.addEventListener('keyup',()=>{
             verifyForm(document.querySelectorAll('input'));
+		  if(url == 'login/register'){
+			  verifyPass();
+			  console.log('estou aqui');
+		  }
           });
         }
         
@@ -244,8 +261,6 @@
 			    msg = document.querySelector(err);
 			    msg.innerHTML = res['message'];
 		    }
-            }else{
-              console.log('Erro não foi possível estabelecer ligação');
             }
           };
           
@@ -282,3 +297,84 @@
             return false;
           }
         }
+
+
+function verifyPass(){
+        const pass = document.getElementById('password');
+        const confirm = document.getElementById('confirm');
+
+        const status = document.getElementById('erro');
+
+	pass.setAttribute('class','validata');
+	confirm.setAttribute('class','validata');
+	const valid = document.querySelectorAll('.validata');
+
+        password = pass.value;
+        confirm_pass = confirm.value;
+
+        pass.addEventListener('change',()=>{
+		verify = pass_verify(password,valid,status);
+		count_change +=1;
+
+		if(!verify){
+			pass.focus();
+		}
+	});
+
+        if(count_change > 0){
+          pass.addEventListener('keyup',()=>{
+            verify = pass_verify(password,valid,status);
+          });
+        }
+
+        confirm.addEventListener('change',()=>{
+          if(verify){
+            verify_conf = confirm_verify(password,confirm_pass,valid,status);
+            if(!verify_conf){
+              confirm.focus();
+            }
+          }
+		count_change_con +=1;
+        });
+
+        if(count_change_con > 0){
+          confirm.addEventListener('keyup',()=>{
+            verify_conf = confirm_verify(password,confirm_pass,valid,status);
+          });
+        }
+
+        if(verify_conf && verify){
+          return true;
+        }else{
+          return false;
+        }
+      }	
+
+      function pass_verify(password,valid,status){
+        if(password.length >= 8){
+          valid[0].classList.replace('invalid','valid');
+
+          status.innerHTML = "";
+          return true;
+        }else{
+           valid[0].classList.remove('valid');
+          valid[0].classList.add('invalid');
+
+           status.innerHTML = "Palavra passe tem que ter no mínimo 8 caracteres";
+          return false;
+        }
+      }
+
+      function confirm_verify(password1,password2,valid,status){
+        if(password1 === password2){
+          valid[1].classList.replace('invalid','valid');
+          status.innerHTML = "";
+          return true;
+        }else{
+            valid[1].classList.remove('valid');
+          valid[1].classList.add('invalid');
+
+          status.innerHTML = "Palavra passe não são iguais";
+          return false;
+        }
+      }
