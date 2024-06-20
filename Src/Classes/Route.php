@@ -22,7 +22,8 @@ class Route{
 			"user" => "ControllerUser",
 			"notification" => "ControllerNotification",
 			"login"=>"ControllerLogin",
-			"register"=>"ControllerRegister"
+			"about"=>"ControllerAbout",
+			"operation"=>"ControllerUserCRUD"
 		);
 
 		

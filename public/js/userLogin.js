@@ -239,7 +239,6 @@ let verify_conf = false;
             verifyForm(document.querySelectorAll('input'));
 		  if(url == 'login/register'){
 			  verifyPass();
-			  console.log('estou aqui');
 		  }
           });
         }
@@ -249,19 +248,40 @@ let verify_conf = false;
           xhttp = new XMLHttpRequest();
           xhttp.onreadystatechange = ()=>{
             if(xhttp.readyState == 4 && xhttp.status == 200){
-             // document.getElementById('content').innerHTML = xhttp.responseText;
+		    removeLoading();
 		    res = JSON.parse(xhttp.responseText);
-		    if(res["message"] == true){
-			    window.location.reload();
+		    if(res["status"] == true){
 			    if(url == 'login/register'){
+				    console.log('ok');
+				    /*criando um dialogo*/
+				    const dialog = document.createElement('div');
+				    const msg = document.createElement('p');
+				    const btn_ok = document.createElement('button');
+				    btn_ok.setAttribute('id','btn-ok');
+				    msg.setAttribute('id','msg');
+				    msg.textContent = res['message'];
+				    dialog.setAttribute('id','dialog');
+				    btn_ok.textContent = 'Ok';
+				    dialog.appendChild(msg);
+				    dialog.appendChild(btn_ok);
+				    const content = document.querySelector('body');
+
+				    content.appendChild(dialog);
+				    add_login('btn-ok','content');
+				    btn_ok.addEventListener('click',()=>{
+					    dialog.remove();
+					    });
+				    /*fim dialogo*/
 			    }else{
 				    window.location.reload();
 			    }
 		    }else{
 			    msg = document.querySelector(err);
-			    msg.innerHTML = res['message'];
+			    msg.textContent = res['message'];
 		    }
-            }
+            }else{
+		    loading();
+	    }
           };
           
           let data = {};

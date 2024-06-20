@@ -6,12 +6,15 @@ session_start();
 use Src\Classes\UserDAO;
 use App\Models\Post;
 use App\Models\Comment;
+
 use Src\Traits\Implementation;
 use Src\Traits\TVUser;
+use Src\Traits\Utils;
 
 class User extends UserDAO{
 	use Implementation;
 	use TVUser;
+	use Utils;
 
 	private $password;
 	private $nome;
@@ -22,6 +25,7 @@ class User extends UserDAO{
 	private $verify;
 	private $last_login;
 	private $phone_user;
+	private $date_of_birth;
 
 	private $post;
 	private $comment;
@@ -53,9 +57,15 @@ class User extends UserDAO{
 
 	public function update_user($email):bool{
 		$this->setUId($email);
-                $id = $this->getUserId();                                                                       if(array_key_exists('id_user',$id)){
-                        $this->update($id['id_user']);
-			return true;
+		$id = $this->getUserId();
+		
+		if(array_key_exists('id_user',$id)){
+			$result = $this->update($id['id_user']);
+			if($result)
+				return true;
+			else{
+				return false;
+			}
 		}else{
                         $this->setErro('Erro! Usuário não existe');                                                     return false;
                 }
@@ -152,6 +162,43 @@ class User extends UserDAO{
 		}
 	}
 
+	public function verify_update(){
+		$count = 0;
+		if(!empty($this->getNome())){
+			if(!$this->validarNome()){
+				$this->setErro('Nome do usuario não corresponde ao formato esperado. O nome deve ter apenas letras');
+				return false;
+			}else{
+				$count +=1;
+			}
+		}
+		
+		if(!empty($this->getSobrenome())){
+			if(!$this->validarNome($this->getSobrenome())){
+				$this->setErro('Sobrenome do usuario não corresponde ao formato esperado. O sobrenome deve ter apenas letras');
+				return false;
+			}else{
+				$count +=1;
+			}
+		}
+		
+		if(!empty($this->getPassword())){
+			if(!$this->validarPassword()){
+				$this->setErro('Senha não corresponde ao formato esperado');
+				return false;
+			}else{
+				$count +=1;
+			}
+		}
+		if(!empty($this->getAlcunha()) || !empty($this->getDateOfBirth())){
+			return true;
+		}
+		
+		if($count > 0){
+			return true;
+		}
+	}
+
 	public function createPost($id_user){
 		$this->post;
 	}
@@ -163,7 +210,7 @@ class User extends UserDAO{
 	public function setPassword($pass){
 		$this->password = $pass;
 	}
-	public function getPassword():string{
+	public function getPassword(){
 		return $this->password;
 	}
 
@@ -174,18 +221,21 @@ class User extends UserDAO{
 	public function pass_generate(){
 		return password_hash($this->getPassword(),PASSWORD_DEFAULT);
 	}
-	public function setNome(string$nome){                       $this->nome = $nome;
+	public function setNome(string$nome){
+		$this->nome = $nome;
 	}
-	public function getNome():string{                             return $this->nome;
+	public function getNome(){
+		return $this->nome;
 	}
 	public function setSobrenome(string$sobrenome){
 		$this->sobrenome = $sobrenome;
-	}                                               public function getSobrenome():string{                       return $this->sobrenome;
+	}                                               public function getSobrenome(){
+		return $this->sobrenome;
 	}
-	public function setAlcunha(string$alcinha){
+	public function setAlcunha(string$alcunha=""){
 		$this->alcunha = $alcunha;
 	}
-	public function getAlcunha():string{
+	public function getAlcunha(){
 		return $this->alcunha;
 	}
 
@@ -215,5 +265,29 @@ class User extends UserDAO{
 	}
 	public function getLastLogin(){
 		return $this->last_login;
+	}
+
+	public function setDateOfBirth($date){
+		$this->date_of_birth = new \DateTime($date);
+	}
+	public function getDateOfBirth(){
+		return $this->date_of_birth;
+	}
+
+
+	public function displayErro(){
+		
+		$erro = [];
+		foreach($this->getErro() as $values){
+			foreach($values as $key => $value){
+				extract($value);
+				
+				if($nivel == 4){
+					array_push($erro,$mesage);
+				}
+			}
+		}
+		
+		return $erro;
 	}
 }

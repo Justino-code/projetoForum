@@ -3,17 +3,16 @@
     <div id="menu-conta">
        <h3 id="conta-d">Minha Conta</h3>
        <ul>
-         <li>Actualizar Info</li>
-         <li>Verificar Conta</li>
-         <li>Alterar Senha</li>
-         <li>Remover Conta</li>
+         <li class='option'>Actualizar Info</li>
+         <li class='option'>Verificar Conta</li>
+         <li class='option'>Remover Conta</li>
       </ul>
     </div>
     
     <div id="menu-post">
        <h3 id="post-d">Meus Posts</h3>
        <ul>
-         <li>Ver Posts</li>
+         <li class='option'>Ver Posts</li>
          </ul>
       </div>
   </nav>
@@ -35,7 +34,16 @@
     </div>
     <div class="profile-info">
 <?php
-if(isset($_SESSION['user_name'])){
+	if(isset($_SESSION['user_name'])){
+		if(POST_NOTIFY == 'Não'){
+			$class = 'active';
+			$btn = 'Activar';
+			$value = 1;
+		}else{
+			$class = 'unactive';
+			$btn = 'Desativar';
+			$value = 0;
+		}
 echo "	
       <h2>".NOME." ".SOBRENOME."</h2>
 	<h3>".ALCUNHA."</h3>
@@ -43,7 +51,7 @@ echo "
 	<p><strong>Telefone: </strong>".TELEFONE."</p>
 	<p><strong>Status: </strong>".STATUS."</p>
 	<p><strong>Verificação: </strong>".VERIFY."</p>
-	<p><strong>Notificação: </strong>".POST_NOTIFY."</p>
+	<p><strong>Notificação: </strong>".POST_NOTIFY." <button id='btn-active' value = {$value} class={$class}>{$btn}</button></p>
 	<p><strong>Aniversario: </strong>".DATE_OF_BIRTH."</p>
       <p><strong>Data de Criação: </strong>".CREATE_DATE."</p>
       <p><strong>Data da Ultima Actualização: </strong>".UPDATE_DATE."</p>
@@ -59,4 +67,4 @@ echo "
     </div>
   </div>
 
-<script src="<?php echo DIRPAGE."/public/js/";?>userProfile.js"></script>
+<script src="<?php echo DIRPAGE."/public/js/UserProfile2.js";?>"></script>

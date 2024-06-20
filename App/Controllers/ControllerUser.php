@@ -25,7 +25,7 @@ class ControllerUser extends Render{
 		$notify = ['Não','Sim'];
 		if(isset($_SESSION['user_name'])){
 			$this->user->setData(['user_accounts'=>['email','create_date','update_date','status','telefone','last_login','verify','post_notify'],'identidade'=>['nome','sobrenome','alcunha','foto_perfil','date_of_birth']]);
-			$info = call_user_func_array('array_merge',$this->user->select_user("jkotingo25@gmail.com"));
+			$info = call_user_func_array('array_merge',$this->user->select_user($_SESSION['user_email']));
 			if($info){
 				if($info['status'] >= 0){
 					$info ['status'] = $status[$info['status']];

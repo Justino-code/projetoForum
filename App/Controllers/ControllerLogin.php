@@ -22,21 +22,24 @@ class ControllerLogin{
 			if($this->user->verify_login()){
 				$login = $this->user->login();
 				if($login){
-					$this->response["message"] = true;
+					$this->response["status"] = true;
 				}else{
-					$this->response['message'] = $this->displayErro();
+					$this->response['status'] = false;
+					$this->response['message'] = /*'Erro ao fazer login do usuario';*/$this->user->displayErro();
 				}
 			}else{
-				$this->response['message'] = $this->displayErro();
+				$this->response['status'] = false;
+				$this->response['message'] = $this->user->displayErro();
 			}
 		}else{
+			$this->response['status'] = false;
 			$this->response['message'] = "Campos Vazio";
 		}
 
 		echo json_encode($this->response);
 	}
-
-	private function displayErro(){
+	
+	/*private function displayErro(){
 		$erro = [];
 		foreach($this->user->getErro() as $values){
 			foreach($values as $key => $value){
@@ -49,7 +52,7 @@ class ControllerLogin{
 		}
 
 		return $erro;
-	}
+	}*/
 	
 	public function register(){
 		$response = [];
@@ -70,19 +73,28 @@ class ControllerLogin{
 				}
 
 				if($this->user->verify_register()){
-					$register = $this->user->register();
-					if($register){
-						$this->response['message'] = true;
-					}else{
-						$this->response['message'] = $this->displayErro();
+					try{
+						if($this->user->register()){
+							$this->response['status'] = true;
+							$this->response['message'] = 'Registo feito com suceso';
+						}else{
+							$this->response['status'] = false;
+							$this->response['message'] = $this->user->displayErro();
+						}
+					}catch(\Throwable $e){
+						$this->response['status'] = false;
+						$this->response['message'] = "Erro ao fazer o registo";
 					}
 				}else{
-					$this->response['message'] = $this->displayErro();
+					$this->response['status'] = false;
+					$this->response['message'] = 'Não foi possível fazer o registo. Tente mais tarde';
 				}
 			}else{
-				$this->response['message'] = $this->displayErro();
+				$this->response['status'] = false;
+				$this->response['message'] = $this->user->displayErro();
 			}
 		}else{
+			$this->response['status'] = false;
 			$this->response['message'] = 'Campos vazios';
 		}
 

@@ -2,6 +2,7 @@
           xhttp = new XMLHttpRequest();
           xhttp.onreadystatechange = ()=>{
             if(xhttp.readyState == 4 && xhttp.status == 200){
+		    removeLoading();
 		    res = JSON.parse(xhttp.responseText);
 		    if(typeof(res) !== 'object'){
 			    response = JSON.parse(res);
@@ -13,7 +14,9 @@
 			    erro.innerHTML = res['message'];
 			    erro.style.color = 'red';
 		}
-        }
+        }else{
+		loading();
+	}
           };
           
           xhttp.open('POST','post/getPost');

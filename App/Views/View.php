@@ -21,7 +21,7 @@ var_dump($_SERVER['REQUEST_METHOD'] == 'GET' && ($_SERVER['REQUEST_URI'] == '/AP
     <title><?php echo $this->getTitle();?></title>
     <link rel="stylesheet" href=<?php echo DIRPAGE."/public/css/style2.css";?>>
     <?php echo $this->renderHead();?>
-   <script src ="<?php //echo DIRPAGE."/public/js/user.js"?>"></script>
+   <script src ="<?php //echo DIRPAGE."/public/js/loading.js"?>" async></script>
 </head>
 <body>
     <!-- Cabeçalho -->
@@ -57,6 +57,7 @@ else
 
     <!-- Conteúdo principal -->
     <main id="content">
+	<script src ="<?php echo DIRPAGE."/public/js/loading.js"?>"></script>
       <?php echo $this->renderMain();?>
         
     </main>

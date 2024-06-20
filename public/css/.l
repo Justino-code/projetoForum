@@ -312,33 +312,5 @@ h1 {
 	    padding: 7px;
 	    border: none;
 	    border-radius: 10px;
-	    background: #800000;
-	    color: #fff;
-    }
-
-    /*Config botão activar notificações*/
-
-    #btn-active{
-	    border: none;
-	    width: 70px;
-	    padding: 2px;
-	    border-radius: 7px;
-	    margin-left: 50px;
-    }
-
-    .active{
-	    background: green;
-	    color: #ccc;
-    }
-    .active:active{
-	    color: #fff;
-	    background: #2b6e34;
-    }
-    .unactive:active{
-	    background: red;
-	    color: #fff;
-    }
-    .unactive{
-	    color: #ccc;
-	    background: #a10000;
+	    background: #00074f;
     }
