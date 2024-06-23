@@ -7,11 +7,11 @@ id_user) references user_accounts(id_user) ON DELETE CASCADE);
 
 CREATE TABLE category (id_cat int UNSIGNED primary key auto_increment not null, nome varchar(100) not null, create_date datetime not null, update_date datetime not null);
 
-CREATE TABLE post(id_post INT UNSIGNED PRIMARY KEY AUTO_INCREMENT NOT NULL, titltle varchar(100) not null, content text not null, create_date datetime not null, update_date datetime not null, id_user int unsigned not null,
+CREATE TABLE post(id_post INT UNSIGNED PRIMARY KEY AUTO_INCREMENT NOT NULL, title varchar(100) not null, content text not null, create_date datetime not null, update_date datetime not null, id_user int unsigned  null,
 id_cat int unsigned not null, FOREIGN KEY (id_user) REFERENCES user_accounts(id_user) ON UPDATE
-CASCADE, FOREIGN KEY (id_cat) REFERENCES category (id_cat) ON UPDATE CASCADE);
+CASCADE ON DELETE SET NULL, FOREIGN KEY (id_cat) REFERENCES category (id_cat) ON UPDATE CASCADE);
 
-CREATE TABLE comment(id_com int unsigned primary key auto_increment not null, content text not null, create_date datetime not null, update_date datetime not null, id_post int unsigned not null, id_user int unsigned not null, FOREIGN KEY (id_post) REFERENCES post(id_post)ON DELETE CASCADE, FOREIGN KEY (id_user) REFERENCES user_accounts(id_user));
+CREATE TABLE comment(id_com int unsigned primary key auto_increment not null, content text not null, create_date datetime not null, update_date datetime not null, id_post int unsigned not null, id_user int unsigned null, FOREIGN KEY (id_post) REFERENCES post(id_post)ON DELETE CASCADE, FOREIGN KEY (id_user) REFERENCES user_accounts(id_user) ON DELETE SET NULL);
 
 CREATE TABLE notification(id_notify int unsigned primary key auto_increment, notification int(1) not null, status boolean null default true, post_notify boolean null default false, id_user int unsigned not null, id_com int unsigned not null, id_post int unsigned null, FOREIGN KEY (id_user) REFERENCES user_accounts (id_user) ON DELETE CASCADE, FOREIGN KEY (id_com) REFERENCES comment(id_com), FOREIGN KEY (id_post) REFERENCES post(id_post));
 

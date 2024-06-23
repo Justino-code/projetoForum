@@ -25,7 +25,7 @@ class ControllerLogin{
 					$this->response["status"] = true;
 				}else{
 					$this->response['status'] = false;
-					$this->response['message'] = /*'Erro ao fazer login do usuario';*/$this->user->displayErro();
+					$this->response['message'] = $this->user->displayErro();
 				}
 			}else{
 				$this->response['status'] = false;
@@ -101,7 +101,11 @@ class ControllerLogin{
 		echo json_encode($this->response);
 	}
 
+	public function select(){
+		print_r($this->user->getErro());
+	}
+
 	public function logout(){
 		$this->user->logout();
-	}	
+	}
 }

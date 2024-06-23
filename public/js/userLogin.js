@@ -250,6 +250,7 @@ let verify_conf = false;
             if(xhttp.readyState == 4 && xhttp.status == 200){
 		    removeLoading();
 		    res = JSON.parse(xhttp.responseText);
+		    //console.log(xhttp.responseText);
 		    if(res["status"] == true){
 			    if(url == 'login/register'){
 				    console.log('ok');

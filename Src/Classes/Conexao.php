@@ -83,7 +83,7 @@ abstract class Conexao{
 	}
 
        protected function getResult():bool|array{
-		$result = $this->result;
+	       $result = $this->result;
 		if ($result){
 			return $result->fetchAll(PDO::FETCH_ASSOC);
 		}else{

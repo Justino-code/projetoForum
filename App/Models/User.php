@@ -4,8 +4,10 @@ namespace App\Models;
 session_start();
 
 use Src\Classes\UserDAO;
+
 use App\Models\Post;
 use App\Models\Comment;
+use App\Models\Category;
 
 use Src\Traits\Implementation;
 use Src\Traits\TVUser;
@@ -27,11 +29,19 @@ class User extends UserDAO{
 	private $phone_user;
 	private $date_of_birth;
 
-	private $post;
-	private $comment;
+	protected $post;
+	protected $comment;
+	protected $category;
 
-	public function register(){
-		$this->setData(['user_accounts'=>[':email'=>$this->getEmail(),':create_date'=>$this->get_date(),':update_date'=>$this->get_date(),':password'=>$this->pass_generate()],'identidade'=>[':nome'=>$this->getNome(),':sobrenome'=>$this->getSobrenome()]]);
+	public function __construct(){
+		parent::__construct();
+		$this->post = new Post();
+		$this->comment = new Comment();
+		$this->category = new Category();
+	}
+
+	public function register(int$type=1){
+		$this->setData(['user_accounts'=>[':email'=>$this->getEmail(),':user_type'=>$type,':create_date'=>$this->get_date(),':update_date'=>$this->get_date(),':password'=>$this->pass_generate()],'identidade'=>[':nome'=>$this->getNome(),':sobrenome'=>$this->getSobrenome()]]);
 
 		$result = $this->insert();
 		if($result){
@@ -79,7 +89,7 @@ class User extends UserDAO{
 			$result = $this->select_complex($id['id_user']);
 			return $result;
 		}else{
-                        $this->setErro('Erro! Usuário não existe');                                                     return false;
+                        //$this->setErro('Erro! Usuário não existe');                                                     return false;
                 }
 	}
 
@@ -88,7 +98,8 @@ class User extends UserDAO{
 		$pass = $this->getPassword();
 
 		$this->setData(['user_accounts'=>[':email',':password'],'identidade'=>[':nome']]);
-		$user = $this->select_user($email);
+		$user = $this->select_user('jkotingo0@gmail.com');
+
 		if($user){
 			$user = call_user_func_array('array_merge',$user);
 
@@ -289,5 +300,12 @@ class User extends UserDAO{
 		}
 		
 		return $erro;
+	}
+
+
+	public function getAllUser($cond_pesq=null){
+		$this->select_all($cond_pesq);
+
+		print_r($this->getErro());
 	}
 }

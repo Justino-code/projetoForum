@@ -59,18 +59,35 @@ abstract class UserDAO extends Conexao{
 		}
 	}
 
-	protected function select($id_user):array|bool{
+	protected function select_all(){
+		$sql = "SELECT nome, sobrenome FROM user_accounts rigth join identidade";
+		$consulta = $this->consulta($sql);
+		var_dump($consulta);
+		print_r($this->getResult()[0]);
+	}
+
+	protected function select($cond_pesq=null):array|bool{
 		try{
 			$entidade = $this->getData();
 			foreach($entidade as $key => $values){
 				$param = array_values($values);
 				$param = implode(',',$values);
 				$atr = str_replace(':','',$param);
-				$cond_pesq = implode('',array_keys($id_user));
+				$sql = '';
+
+				if($cond_pesq){
+				$cond_pesq = implode('',array_keys($cond_pesq));
 				$cond = str_replace(':','',$cond_pesq);
 
 				$sql = "SELECT {$atr} FROM {$key} WHERE {$cond} = {$cond_pesq}";
-				$consulta = $this->consulta($sql,$id_user);
+				}else{
+					//$sql = "SELECT {$atr} FROM user_accounts left join identidade on identidade.id_user = user_accounts.id_user";
+					$sql = "SELECT * FROM user_accounts;";
+				}
+
+				echo $sql;
+				
+				$consulta = $this->consulta($sql);
 				if(!$consulta){
 					throw new PDOException();
 				}else{
@@ -84,7 +101,7 @@ abstract class UserDAO extends Conexao{
 		}
 	}
 
-	function select_complex($id_user){
+	protected function select_complex($id_user){
 		try{
 			$elements = $this->getData();
 			$key = array_keys($elements);
@@ -106,6 +123,7 @@ abstract class UserDAO extends Conexao{
 			$atr = str_replace(':','',$atr);
 			$sql = "SELECT {$atr} FROM {$entidade} ON {$ent} WHERE user_accounts.id_user = :id_user";
 			$consulta = $this->consulta($sql,[':id_user'=>$id_user]);
+
 			if(!$consulta){
 				throw new PDOException();
 			}else{

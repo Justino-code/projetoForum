@@ -17,10 +17,8 @@ class Route{
 			"" => "ControllerHome",
 			"home" => "ControllerHome",
 			"post" => "ControllerPost",
-			"comment" => "ControllerComment",
-			"category" => "ControllerCategory",
 			"user" => "ControllerUser",
-			"notification" => "ControllerNotification",
+			"admin" => "ControllerAdmin",
 			"login"=>"ControllerLogin",
 			"about"=>"ControllerAbout",
 			"operation"=>"ControllerUserCRUD"

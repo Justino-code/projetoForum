@@ -1,11 +1,11 @@
 <?php
 namespace App\Controllers;
-header('Content-Type: application/json');
 
 use App\Models\Post;
 
 class ControllerPost{
 	private $post;
+	private $cat;
 	private $response = [];
 
 	public function __construct(){
@@ -84,7 +84,7 @@ class ControllerPost{
 			if(isset($title) && isset($content) && isset($category)){
 				$this->post->setTitle($title);
 				$this->post->setContent($content);
-				$this->post->setCat($category);
+				$this->post->setCat(1);
 				$this->post->setUserId($_SESSION['user_id']);
 				if($this->post->validate()){
 					$this->post->setData(['post'=>[':title'=>$this->post->getTitle(),':content'=>htmlentities($this->post->getContent()),':id_user'=>htmlentities($this->post->getUserId()),':id_cat'=>$this->post->getCat()]]);
@@ -94,5 +94,19 @@ class ControllerPost{
 		}
 
 	}
-	
+
+	public function getCat(){
+
+		$cat = new Post();
+
+		$cat->setData(['category'=>['id_cat','nome']]);                                                          $category = $cat->select_post();
+		if($category){
+			$this->response['message'] = call_user_func_array('array_merge',$category);
+			$this->response['status'] = true;
+		}else{
+			$this->response['status'] = false;
+		}
+
+		echo json_encode($this->response);
+	}	
 }
